@@ -1,0 +1,48 @@
+<div cdkDropListGroup>
+  <div class="column">
+    <div class="column-header">
+      <h3>{{ column.title }}</h3>
+      <button class="delete-column" (click)="deleteColumn()">
+        <span class="material-icons">delete</span>
+      </button>
+    </div>
+  
+    <div
+      class="example-list"
+      cdkDropList
+      [cdkDropListData]="column.tasks"
+      [cdkDropListConnectedTo]="columnIds"
+      [id]="column.id"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-card
+        *ngFor="let task of column.tasks"
+        [task]="task"
+        [columnIndex]="columnIndex"
+        [columns]="columns"
+        cdkDrag
+        class="example-box"
+      >
+      </app-card>
+    </div>
+  
+    <div class="task-add">
+      <button *ngIf="!showInput" (click)="toggleInput()">
+        <span class="material-icons"></span> + Yeni Görev Ekle
+      </button>
+  
+      <div *ngIf="showInput" class="show-input">
+        <input
+          [(ngModel)]="newTaskTitle"
+          placeholder="Yeni görev başlığı girin"
+        />
+        <button (click)="addTask()" class="add-task">
+          <span class="material-icons">check</span>
+        </button>
+        <button (click)="cancelAdd()" class="cancel-task">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

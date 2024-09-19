@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f5f7;
+    color: #333;
+  }
+  
+  .board {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    justify-content: flex-start;
+  }
+  
+  .column-add {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  input, button, textarea {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  button {
+    background-color: #5aac44;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #519839;
+  }
+  
+  input, textarea {
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }  

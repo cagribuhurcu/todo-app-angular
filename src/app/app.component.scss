@@ -1,0 +1,101 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #d9a9a9;
+
+  .left-section,
+  .right-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .left-section .icon,
+  .right-section .icon {
+    font-size: 24px;
+    margin-right: 8px;
+    color: black;
+  }
+
+  .workspace-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 16px;
+  }
+
+  .workspace-status {
+    font-size: 14px;
+    margin-right: 16px;
+  }
+
+  .board-button {
+    display: flex;
+    align-items: center;
+    background-color: #1c3e5f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    .icon {
+      margin-right: 4px;
+    }
+  }
+
+  .right-section .menu-item {
+    margin-left: 16px;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
+.todo {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(270deg, #ff7e5f, #feb47b, #86a8e7, #7f7fd5);
+  background-size: 800% 800%;
+  animation: gradient 75s ease infinite;
+
+  .board {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .column {
+      min-height: 100px;
+      width: 300px;
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.301);
+      border-radius: 15px;
+    }
+  }
+
+  .column-add {
+    display: flex;
+    align-items: flex-start;
+
+    button {
+      padding: 4px;
+    }
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

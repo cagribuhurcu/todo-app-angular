@@ -1,0 +1,28 @@
+<div class="card">
+  <div *ngIf="!editMode">
+    <h4 (click)="enableEditMode()">{{ task.title }}</h4>
+    <p (click)="enableEditMode()">{{ task.description || "Açıklama ekle" }}</p>
+    <div class="assignee" *ngIf="task.assignee?.initials">
+      <div class="assignee-circle">
+        {{ task.assignee?.initials }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="editMode" class="edit-mode">
+    <input [(ngModel)]="editedTitle" placeholder="Başlığı düzenleyin" />
+    <textarea
+      [(ngModel)]="editedDescription"
+      placeholder="Açıklamayı düzenleyin"
+    ></textarea>
+    <input
+      [(ngModel)]="editedAssigneeFullName"
+      placeholder="Atanacak kişi adı"
+    />
+    <div class="card-button-group">
+      <button (click)="saveChanges()">Kaydet</button>
+      <button class="cancel-button" (click)="cancelEdit()">İptal</button>
+      <button class="delete-button" (click)="deleteTask()">Sil</button>
+    </div>
+  </div>
+</div>

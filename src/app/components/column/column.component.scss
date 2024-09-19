@@ -1,0 +1,124 @@
+.column {
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.349);
+  border-radius: 15px;
+  background-color: white;
+
+  .column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin-left: 5px;
+    }
+
+    .delete-column {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      .material-icons {
+        color: rgba(255, 0, 0, 0.568);
+        transition: 0.4s;
+
+        &:hover {
+          color: rgba(255, 0, 0, 0.822);
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .task-add {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    button {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+      color: #0079bf;
+    }
+
+    .material-icons {
+      font-size: 20px;
+    }
+
+    input {
+      padding: 5px;
+      margin-right: 10px;
+      flex: 1;
+    }
+
+    .show-input {
+      display: flex;
+
+      .add-task {
+        background-color: #5aac44;
+        color: white;
+        border-radius: 4px;
+        padding: 5px;
+        font-size: 14px;
+
+        span {
+          transition: 0.4s;
+
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+      }
+
+      .cancel-task {
+        background-color: #d9534f;
+        color: white;
+        border-radius: 4px;
+        padding: 5px;
+        font-size: 14px;
+
+        span {
+          transition: 0.4s;
+
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+  }
+
+  .example-list {
+    min-height: 20px;
+    width: 300px;
+  }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
