@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Column } from '../../models/column.model';
 import { Task } from '../../models/task.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-column',
@@ -16,8 +17,14 @@ export class ColumnComponent {
   newTaskTitle: string = '';
   showInput: boolean = false;
 
+  constructor(private storageService: StorageService) {}
+
   get columnIds(): string[] {
     return this.columns.map(col => col.id);
+  }
+
+  onTaskDeleted(taskId: string) {
+    console.log('Görev silindi:', taskId);
   }
 
   toggleInput() {
@@ -42,14 +49,11 @@ export class ColumnComponent {
   }
 
   deleteColumn() {
-    this.columns.splice(this.columnIndex, 1);
-    this.saveColumns();
+    this.columns = this.storageService.deleteColumn(this.columns, this.columnIndex);
   }
 
   saveColumns() {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('columns', JSON.stringify(this.columns));
-    }
+    this.storageService.saveColumns(this.columns);
   }
 
   drop(event: CdkDragDrop<Task[]>) {

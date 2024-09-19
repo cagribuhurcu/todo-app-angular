@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { Column } from '../../models/column.model';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-card',
@@ -12,10 +13,14 @@ export class CardComponent {
   @Input() columnIndex!: number;
   @Input() columns!: Column[];
 
+  @Output() taskDeleted = new EventEmitter<string>();
+
   editMode: boolean = false;
   editedTitle: string = '';
   editedDescription: string = '';
   editedAssigneeFullName = '';
+
+  constructor(private storageService: StorageService) {}
 
   enableEditMode() {
     this.editMode = true;
@@ -46,14 +51,12 @@ export class CardComponent {
   }
 
   deleteTask() {
-    this.columns[this.columnIndex].tasks = this.columns[this.columnIndex].tasks.filter(t => t !== this.task);
-    this.saveColumns();
+    this.columns = this.storageService.deleteTask(this.columns, this.columnIndex, this.task.id);
+    this.taskDeleted.emit(this.task.id);
   }
 
   saveColumns() {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('columns', JSON.stringify(this.columns));
-    }
+    this.storageService.saveColumns(this.columns);
   }
 
   getInitials(fullName: string): string {

@@ -22,6 +22,7 @@
         [columns]="columns"
         cdkDrag
         class="example-box"
+        (taskDeleted)="onTaskDeleted($event)"
       >
       </app-card>
     </div>
