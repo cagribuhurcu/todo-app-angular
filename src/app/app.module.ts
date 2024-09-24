@@ -6,6 +6,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppComponent } from './app.component';
 import { ColumnComponent } from './components/column/column.component';
 import { CardComponent } from './components/card/card.component';
+import { StorageService } from './services/storage.service';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CardComponent } from './components/card/card.component';
     FormsModule,
     DragDropModule
   ],
+  // providers: [StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
