@@ -1,44 +1,60 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { SpicaService } from './services/spica.service';
 import { Column } from './models/column.model';
-import { StorageService } from './services/storage.service';
+import { Task } from './models/task.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Trello Todo App';
   newColumnTitle: string = '';
   columns: Column[] = [];
+  tasks: Task[] = [];
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private storageService: StorageService
-  ) {}
+  constructor(private spicaService: SpicaService) {}
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.columns = this.storageService.getColumns();
-    }
+    this.loadColumnsAndTasks();
+  }
+
+  loadColumnsAndTasks() {
+    this.spicaService.getAllColumns().subscribe(
+      (columns: Column[]) => {
+        this.columns = columns;
+        this.spicaService.getAllTasks().subscribe(
+          (tasks: Task[]) => {
+            this.tasks = tasks;
+            this.columns.forEach((column) => {
+              column['tasks'] = this.tasks.filter(task => task.columnid === column._id);
+            });
+          },
+          (error) => {
+            console.error('Görevler alınırken bir hata oluştu:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Kolonlar alınamadı:', error);
+      }
+    );
   }
 
   addColumn() {
-    const newColumn: Column = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: this.newColumnTitle,
-      tasks: [],
-    };
-    this.columns = this.storageService.addColumn(this.columns, newColumn);
-    this.newColumnTitle = '';
-  }
+    if (!this.newColumnTitle.trim()) return;
 
-  saveColumns() {
-    this.storageService.saveColumns(this.columns);
-  }
+    const newColumn: Partial<Column> = { title: this.newColumnTitle, taskids: [] };
 
-  updateColumn() {
-    this.storageService.updateColumns(this.columns);
+    this.spicaService.createColumn(newColumn).subscribe(
+      (data: Column) => {
+        this.columns.push(data);
+        this.newColumnTitle = '';
+      },
+      (error) => {
+        console.error('Kolon eklenemedi:', error);
+      }
+    );
   }
 }

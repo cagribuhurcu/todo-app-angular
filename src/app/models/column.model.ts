@@ -1,7 +1,8 @@
 import { Task } from './task.model';
 
 export interface Column {
-  id: string;
+  _id: string;
   title: string;
-  tasks: Task[];
+  taskids: string[];
+  tasks?: Task[];
 }
