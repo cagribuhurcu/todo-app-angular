@@ -1,9 +1,8 @@
 export interface Task {
-    id: string;
+    _id: string;
     title: string;
     description?: string;
-    assignee?: {
-      fullName?: string;
-      initials?: string;
-    } | null;
+    assigneefullname?: string;
+    assigneeinitials?: string;
+    columnid: string;
   }

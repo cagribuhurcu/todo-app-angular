@@ -6,7 +6,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppComponent } from './app.component';
 import { ColumnComponent } from './components/column/column.component';
 import { CardComponent } from './components/card/card.component';
-import { StorageService } from './services/storage.service';
+import { provideHttpClient } from '@angular/common/http';
+import { SpicaService } from './services/spica.service';
 
 @NgModule({
   declarations: [
@@ -17,9 +18,9 @@ import { StorageService } from './services/storage.service';
   imports: [
     BrowserModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
   ],
-  // providers: [StorageService],
+  providers: [SpicaService, provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

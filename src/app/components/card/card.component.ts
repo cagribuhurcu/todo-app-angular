@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../../models/task.model';
 import { Column } from '../../models/column.model';
-import { StorageService } from '../../services/storage.service';
+import { SpicaService } from '../../services/spica.service';
 
 @Component({
   selector: 'app-card',
@@ -10,6 +10,7 @@ import { StorageService } from '../../services/storage.service';
 })
 export class CardComponent {
   @Input() task!: Task;
+  @Input() taskId!: string;
   @Input() columnIndex!: number;
   @Input() columns!: Column[];
 
@@ -20,30 +21,39 @@ export class CardComponent {
   editedDescription: string = '';
   editedAssigneeFullName = '';
 
-  constructor(private storageService: StorageService) {}
+  constructor(private spicaService: SpicaService) {}
 
   enableEditMode() {
     this.editMode = true;
     this.editedTitle = this.task.title;
     this.editedDescription = this.task.description || '';
-    this.editedAssigneeFullName = this.task.assignee?.fullName || '';
+    this.editedAssigneeFullName = this.task.assigneefullname || '';
   }
 
   saveChanges() {
-    this.task.title = this.editedTitle;
-    this.task.description = this.editedDescription;
-    
-    if (this.editedAssigneeFullName.trim()) {
-      this.task.assignee = {
-        fullName: this.editedAssigneeFullName,
-        initials: this.getInitials(this.editedAssigneeFullName)
-      };
-    } else {
-      this.task.assignee = null;
-    }
+    const updatedTask: Partial<Task> = {
+      _id: this.task._id,
+      title: this.editedTitle,
+      description: this.editedDescription,
+      assigneefullname: this.editedAssigneeFullName,
+      assigneeinitials: this.editedAssigneeFullName && this.editedAssigneeFullName.trim()
+        ? this.getInitials(this.editedAssigneeFullName)
+        : ''
+    };
 
-    this.editMode = false;
-    this.saveColumns();
+    this.spicaService.updateTask(updatedTask).subscribe(
+      () => {
+        this.task.title = this.editedTitle;
+        this.task.description = this.editedDescription;
+        this.task.assigneefullname = this.editedAssigneeFullName;
+        this.task.assigneeinitials = this.getInitials(this.editedAssigneeFullName || '');
+        this.editMode = false;
+        console.log('Görev başarıyla güncellendi');
+      },
+      (error) => {
+        console.error('Görev güncellenemedi', error);
+      }
+    );
   }
 
   cancelEdit() {
@@ -51,15 +61,19 @@ export class CardComponent {
   }
 
   deleteTask() {
-    this.columns = this.storageService.deleteTask(this.columns, this.columnIndex, this.task.id);
-    this.taskDeleted.emit(this.task.id);
-  }
-
-  saveColumns() {
-    this.storageService.saveColumns(this.columns);
+    this.spicaService.deleteTask(this.task._id).subscribe(
+      () => {
+        this.taskDeleted.emit(this.task._id);
+        console.log('Görev başarıyla silindi');
+      },
+      (error) => {
+        console.error('Görev silinemedi', error);
+      }
+    );
   }
 
   getInitials(fullName: string): string {
+    if (!fullName) return '';
     const names = fullName.trim().split(' ');
     if (names.length === 1) {
       return names[0][0].toUpperCase();
@@ -67,5 +81,5 @@ export class CardComponent {
       return names[0][0].toUpperCase() + names[1][0].toUpperCase();
     }
     return '';
-  }
+  }  
 }

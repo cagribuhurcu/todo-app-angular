@@ -1,22 +1,33 @@
 <div cdkDropListGroup>
   <div class="column">
     <div class="column-header">
-      <h3>{{ column.title }}</h3>
+      <h3 *ngIf="!editMode" (click)="toggleEdit()">{{ column.title }}</h3>
+
+      <div *ngIf="editMode" class="column-title-edit">
+        <input [(ngModel)]="editedTitle" />
+        <button (click)="saveColumnTitle()" class="update-column-button">
+          <span class="material-icons">check</span>
+        </button>
+        <button (click)="cancelEdit()" class="cancel-column-button">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
       <button class="delete-column" (click)="deleteColumn()">
         <span class="material-icons">delete</span>
       </button>
     </div>
-  
+
     <div
       class="example-list"
       cdkDropList
-      [cdkDropListData]="column.tasks"
+      [cdkDropListData]="tasks"
       [cdkDropListConnectedTo]="columnIds"
-      [id]="column.id"
+      [id]="column._id"
       (cdkDropListDropped)="drop($event)"
     >
       <app-card
-        *ngFor="let task of column.tasks"
+        *ngFor="let task of tasks"
         [task]="task"
         [columnIndex]="columnIndex"
         [columns]="columns"
@@ -26,12 +37,12 @@
       >
       </app-card>
     </div>
-  
+
     <div class="task-add">
       <button *ngIf="!showInput" (click)="toggleInput()">
         <span class="material-icons"></span> + Yeni Görev Ekle
       </button>
-  
+
       <div *ngIf="showInput" class="show-input">
         <input
           [(ngModel)]="newTaskTitle"

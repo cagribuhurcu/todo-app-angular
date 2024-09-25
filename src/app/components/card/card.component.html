@@ -2,9 +2,9 @@
   <div *ngIf="!editMode">
     <h4 (click)="enableEditMode()">{{ task.title }}</h4>
     <p (click)="enableEditMode()">{{ task.description || "Açıklama ekle" }}</p>
-    <div class="assignee" *ngIf="task.assignee?.initials">
+    <div class="assignee" *ngIf="task.assigneeinitials">
       <div class="assignee-circle">
-        {{ task.assignee?.initials }}
+        {{ task.assigneeinitials }}
       </div>
     </div>
   </div>

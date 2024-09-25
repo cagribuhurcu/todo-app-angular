@@ -12,6 +12,43 @@
 
     h3 {
       margin-left: 5px;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    .column-title-edit {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      input {
+        width: 160px;
+        margin-right: 0;
+      }
+
+      .update-column-button {
+        padding: 5px;
+        font-size: 14px;
+        display: flex;
+
+        span {
+          font-size: 20px;
+        }
+      }
+
+      .cancel-column-button {
+        padding: 5px;
+        font-size: 14px;
+        display: flex;
+        background-color: #d9534f;
+
+        span {
+          font-size: 20px;
+        }
+      }
     }
 
     .delete-column {
@@ -43,8 +80,14 @@
       border: none;
       cursor: pointer;
       font-size: 16px;
-      margin-right: 10px;
+      margin-right: 5px;
       color: #0079bf;
+      transition: .3s;
+      transition-timing-function: ease;
+
+      &:hover {
+        color: #069128ce;
+      }
     }
 
     .material-icons {
@@ -53,12 +96,17 @@
 
     input {
       padding: 5px;
-      margin-right: 10px;
+      margin-right: 5px;
       flex: 1;
     }
 
     .show-input {
       display: flex;
+      align-items: center;
+
+      input {
+        padding: 10px;
+      }
 
       .add-task {
         background-color: #5aac44;
